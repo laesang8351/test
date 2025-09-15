@@ -370,13 +370,14 @@
         }
     </style>
     <script>
-    // 카드리스트 드래그 스크롤
+    // 카드리스트 드래그/터치 스크롤 (PC/모바일)
     window.addEventListener('DOMContentLoaded', function() {
         const cardList = document.querySelector('.card-list');
         if (!cardList) return;
         let isDown = false;
         let startX;
         let scrollLeft;
+        // PC: 마우스 드래그
         cardList.addEventListener('mousedown', (e) => {
             isDown = true;
             cardList.classList.add('dragging');
@@ -395,7 +396,28 @@
             if (!isDown) return;
             e.preventDefault();
             const x = e.pageX - cardList.offsetLeft;
-            const walk = (x - startX) * 1.5; // 스크롤 속도 조절
+            const walk = (x - startX) * 1.5;
+            cardList.scrollLeft = scrollLeft - walk;
+        });
+        // 모바일: 터치 드래그
+        cardList.addEventListener('touchstart', (e) => {
+            isDown = true;
+            cardList.classList.add('dragging');
+            startX = e.touches[0].pageX - cardList.offsetLeft;
+            scrollLeft = cardList.scrollLeft;
+        });
+        cardList.addEventListener('touchend', () => {
+            isDown = false;
+            cardList.classList.remove('dragging');
+        });
+        cardList.addEventListener('touchcancel', () => {
+            isDown = false;
+            cardList.classList.remove('dragging');
+        });
+        cardList.addEventListener('touchmove', (e) => {
+            if (!isDown) return;
+            const x = e.touches[0].pageX - cardList.offsetLeft;
+            const walk = (x - startX) * 1.5;
             cardList.scrollLeft = scrollLeft - walk;
         });
     });
