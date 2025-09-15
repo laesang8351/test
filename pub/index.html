@@ -114,10 +114,11 @@
             gap: 24px;
             flex-wrap: nowrap;
             margin-top: 24px;
-            overflow-x: auto;
+            overflow-x: hidden;
             -webkit-overflow-scrolling: touch;
             padding-bottom: 16px; /* 하단 그림자 잘림 방지 */
-            scrollbar-width: thin; /* 항상 공간 확보, thumb만 숨김 */
+            scrollbar-width: thin; /* 항상 공간 확보, thumb만 숨김 */            
+            height:160px;
         }
         .card-list::-webkit-scrollbar {
             height: 8px;
@@ -136,6 +137,8 @@
         }
         .card-list:hover {
             scrollbar-width: thin; /* Firefox: hover시 얇게 표시 */
+            overflow-x: auto;
+            overflow-y: hidden;
         }
         .card-list:hover::-webkit-scrollbar {
             display: block;
@@ -155,6 +158,7 @@
             padding: 2rem 1rem;
             width: 220px;
             min-width: 220px;
+            height:140px;
             flex: 0 0 220px;
             display: flex;
             flex-direction: column;
@@ -307,8 +311,8 @@
         }
         @media (max-width: 700px) {
             .input-container {
-                max-width: 98vw;
-                padding: 16px 8px;
+                max-width: 100vw;
+                margin: 16px;
                 left: 0;
                 right: 0;
             }
@@ -328,7 +332,20 @@
                 margin: 16px;
             }
             .main-content {
-                padding: 16px 8px;
+                box-sizing: border-box;
+                margin: 0 auto;
+                width: 100%;            
+                border-radius: 12px;
+                box-shadow: none;
+                padding: 16px 16px 40px 16px; /* 하단 패딩 추가 */
+                position: fixed;
+                left: 0;
+                right: 0;
+                bottom: 190px;
+                z-index: 99;
+                p {
+                    font-weight: bold;
+                }
             }
             .card-list {
                 gap: 8px;
@@ -401,15 +418,15 @@
             <div class="card-list">                
                 <div class="card">
                     <span class="card-question">Q.</span> 
-                    1건강보험 피부양자가 되려면 어떤 조건이 필요해?
+                    건강보험 피부양자가 되려면 어떤 조건이 필요해?
                 </div>
                 <div class="card">
                     <span class="card-question">Q.</span> 
-                    2건강보험 피부양자가 되려면 어떤 조건이 필요해?
+                    건강보험 피부양자가 되려면 어떤 조건이 필요해?
                 </div>
                 <div class="card">
                     <span class="card-question">Q.</span> 
-                    3건강보험 피부양자가 되려면 어떤 조건이 필요해?
+                    건강보험 피부양자가 되려면 어떤 조건이 필요해?
                 </div>
             </div>
         </div>
