@@ -1,128 +1,431 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>건강보험공단 시안</title>
+    <title>챗봇-메인</title>
     <style>
+        :root {
+            --main-color: #EF413D;
+            --main-body-color: #F9F2F1;
+            --main-btn-color: #FEF1F1;
+            --main-color-hover: #C81915;
+            --main-border-color: #FF9999;
+            --container-max-width: 100%;
+        }
         body {
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-            background: rgb(215,215,215);
+            font-family: 'Pretendard GOV Variable', 'Segoe UI', Arial, sans-serif;
+            background: var(--main-body-color);
+            color: #222;
+            min-width: 375px;
         }
-        .responsive-img-row {
+
+        * {
+        html {
+            min-width: 375px;
+        }
+            box-sizing: border-box;
+            font-family: 'Pretendard GOV Variable', 'Segoe UI', Arial, sans-serif;
+        }
+        
+        header {
+            box-sizing: border-box;
+            height: 56px;
+            background: var(--main-color);
+            color: #fff;
+            padding: 0 32px; /* 상하 패딩 제거, 좌우만 */
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: bold;
+            letter-spacing: -1px;
+            position: relative;
+            display: flex;
+            align-items: center; /* 세로 중앙 정렬 */
+            justify-content: center; /* 가로 중앙 정렬 */
+        }
+
+        .header-title {
+            flex: 1;
+            text-align: center;
+            transform: translateY(-0.1rem);
+        }        
+        .header-menu {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: inline-block;
+            box-sizing: border-box;
+            padding: 16px;
+            width: 56px;
+            height: 56px;
+            line-height: 40px;
+            text-align: center;
+            font-size: 0px;
+            background: url(inc/img/icon-header-menu.png) 50% 50% no-repeat;
+            background-size: 50% auto;
+        }
+        nav {
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
             display: flex;
             justify-content: center;
-            align-items: center; /* 세로 기준 가운데 정렬 */
-            gap: 24px;
-            width: 100%;
-            max-width: 1800px;
-            margin: 0 auto;
-            min-height: 100vh; /* 화면 전체 높이에서 가운데 정렬 효과 */
-            box-sizing: border-box;
+            gap: 32px;
+            padding: 12px 0;
         }
-        .responsive-img-container {
-            flex: 1 1 0;
-            max-width: 360px; /* 2x 이미지를 1x로 보이게 */
-            margin: 0;
+        nav a {
+            color: var(--main-color);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: color 0.2s;
+        }
+        nav a:hover {
+            color: #005fa3;
+        }
+        .container {
+            max-width: var(--container-max-width);
+            margin: 1rem;
+            padding: 0px;
             display: flex;
-            justify-content: center;
-            align-items: center;
+            gap: 1rem;
             flex-direction: column;
-            align-items: flex-start;
         }
-        .responsive-img-container img {
-            width: 100%;
-            height: auto;
+        .main-content {
+            box-sizing: border-box;
+            margin: 0 auto;
+            width: 100%;            
+            border-radius: 12px;
+            box-shadow: none;
+            padding: 16px 16px 40px 16px; /* 하단 패딩 추가 */
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 190px;
+            z-index: 99;
+            p {
+                font-weight: bold;
+            }
+        }
+        .card-list {
+            display: flex;
+            gap: 24px;
+            flex-wrap: nowrap;
+            margin-top: 24px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 16px; /* 하단 그림자 잘림 방지 */
+            scrollbar-width: thin; /* 항상 공간 확보, thumb만 숨김 */
+        }
+        .card-list::-webkit-scrollbar {
+            height: 8px;
+            background: transparent;
+            /* 항상 공간 확보, thumb만 숨김 */
+        }
+        .card-list::-webkit-scrollbar-thumb {
+            background: transparent;
+            border-radius: 4px;
+        }
+        .card-list:hover::-webkit-scrollbar-thumb {
+            background: #ccc;
+        }
+        .card-list::-webkit-scrollbar {
+            display: none;
+        }
+        .card-list:hover {
+            scrollbar-width: thin; /* Firefox: hover시 얇게 표시 */
+        }
+        .card-list:hover::-webkit-scrollbar {
             display: block;
-            /* border-radius: 8px;  라운드 제거 */
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            image-rendering: -webkit-optimize-contrast;
         }
-        .img-title {
-        width: 100%;
-        text-align: center;
-        font-size: 18px;
-        font-weight: bold;
-        margin-bottom: 10px;
-        color: #222;
-        letter-spacing: -0.5px;
-        }   
-        .img-title-top {
-        width: 100%;
-        text-align: left;
-        font-size: 18px;
-        font-weight: bold;
-        margin-bottom: 10px;
-        color: #222;
-        letter-spacing: -0.5px;
-        margin-top: 0;
-        padding-left: 8px;
-        box-sizing: border-box;
+        .card-list:hover::-webkit-scrollbar-thumb {
+            background: #ccc;
+            scrollbar-width: thin;
+        }
+        .card-list:hover::-webkit-scrollbar {
+            display: block;
+            height: 8px;
+        }
+        .card {
+            background: #f9fafb;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            padding: 2rem 1rem;
+            width: 220px;
+            min-width: 220px;
+            flex: 0 0 220px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: left;
+            line-height: 1.5rem;
+        }
+        .card-question {
+            color: var(--main-color);
+            text-align: left;
+            font-size: 1.25rem;
+            display: block;
+            width: 100%;
+            margin-bottom: 4px;
+        }
+        .card img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            margin-bottom: 12px;
+        }
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #333;
+        }
+        .card-desc {
+            font-size: 0.95rem;
+            color: #666;
+        }
+        .main-message {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-top: 5rem;
+            text-align: center;       
+        }
+        .main-message img {
+            width: 100px;
+            height: auto;
+            margin-bottom: 1rem;
+        }
+        .main-message p {
+            font-size: 1.5rem;
+            color: #333;
+            font-weight: 500;
+            margin: 0;
+        }
+        .input-container {            
+            min-width: 375px;
+            left: 1rem;
+            right: 1rem;
+            bottom: 0rem;
+            margin: 1rem auto;
+            box-sizing: border-box;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            border: none;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            padding: 24px 24px;
+            gap: 16px;
+            position: fixed;
+            height: auto;
+            z-index: 100;
+        }
+        .input-actions-group {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 12px;
+            justify-content: space-between;
+        }
+        .input-actions-group .button-group {
+            justify-content: flex-start;
+        }
+        .input-actions-group .send-button {
+            margin-left: auto;
+        }
+        .input-container textarea {
+            flex: 1;
+            height: 5rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            font-size: 1rem;
+            outline: none;
+            resize: none;
+            transition: border-color 0.2s;
+        }
+        .input-container textarea:focus {
+            border-color: var(--main-border-color)
+        }
+        .input-container button.send-button {
+            width: 44px;
+            height: 44px;
+            padding: 0;
+            border: none;
+            border-radius: 22px;
+            background: var(--main-color) url(./inc/img/icon-btn-send.png) no-repeat 25% 25%;
+            background-size: 100% auto;
+            color: #fff;
+            font-size: 0rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .input-container button.send-button:hover {
+            background: var(--main-color-hover) url(./inc/img/icon-btn-send.png) no-repeat 25% 25%;
+            background-size: 100% auto;
+        }
+        .button-group {
+            display: flex;
+            gap: 4px;
+        }
+        .button-group button {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 0.5rem 1rem;
+            border: 1px solid #FFF;
+            border-radius: 20px;
+            background: #f9f9f9;
+            font-size: 0.9rem;
+            color: #555;
+            cursor: pointer;
+            transition: background 0.2s, border-color 0.2s;
+        }
+        .button-group button:hover {
+            background: var(--main-btn-color);
+            border-color: #ccc;
+            border: 1px solid #FF9999;
+            color: #EE0000;
+        }
+        .button-group button:hover img {
+            filter: brightness(0) saturate(100%) invert(17%) sepia(99%) saturate(7490%) hue-rotate(-5deg) brightness(97%) contrast(110%);
+        }
+        .button-group img {
+            width: 20px;
+            height: auto;
         }
         @media (max-width: 900px) {
-            .responsive-img-row {
+            .container {
                 flex-direction: column;
                 gap: 16px;
-                max-width: 100%;
             }
-            .responsive-img-container {
-                max-width: 100vw;
+        }
+        @media (max-width: 700px) {
+            .input-container {
+                max-width: 98vw;
+                padding: 16px 8px;
+                left: 0;
+                right: 0;
             }
         }
         @media (max-width: 600px) {
-            .responsive-img-container {
-                max-width: 90vw;
+            header {
+                font-size: 1.25rem;
+                padding: 0 8px;
+                height: 48px;
+            }
+            nav {
+                gap: 16px;
+                font-size: 0.95rem;
+            }
+            .container {
+                padding: 0px;
+                margin: 16px;
+            }
+            .main-content {
+                padding: 16px 8px;
+            }
+            .card-list {
+                gap: 8px;
+            }
+            .card {
+                width: 50vw;
+                min-width: 50vw;
+                max-width: 50vw;
+                flex: 0 0 50vw;
+            }
+            .card img {
+                width: 60px;
+                height: 60px;
+            }
+            .header-menu {
+                right: 8px;
+                padding: 8px;
+                width: 40px;
+                height: 40px;
+                background-size: 50%;
             }
         }
     </style>
+    <script>
+    // 카드리스트 드래그 스크롤
+    window.addEventListener('DOMContentLoaded', function() {
+        const cardList = document.querySelector('.card-list');
+        if (!cardList) return;
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+        cardList.addEventListener('mousedown', (e) => {
+            isDown = true;
+            cardList.classList.add('dragging');
+            startX = e.pageX - cardList.offsetLeft;
+            scrollLeft = cardList.scrollLeft;
+        });
+        cardList.addEventListener('mouseleave', () => {
+            isDown = false;
+            cardList.classList.remove('dragging');
+        });
+        cardList.addEventListener('mouseup', () => {
+            isDown = false;
+            cardList.classList.remove('dragging');
+        });
+        cardList.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - cardList.offsetLeft;
+            const walk = (x - startX) * 1.5; // 스크롤 속도 조절
+            cardList.scrollLeft = scrollLeft - walk;
+        });
+    });
+    </script>
 </head>
 <body>
-    <div class="responsive-img-row">
-        <div class="responsive-img-container">
-            <div class="img-title img-title-top">메인 화면 A</div>
-            <img src="./screen-main-g2.png" alt="Main Screen">
-        </div>
-        <div class="responsive-img-container">
-            <div class="img-title img-title-top">상단 타이틀 확장 기능</div>
-            <img src="./screen-popup1.png" alt="Popup Screen">
-        </div>
-        <div class="responsive-img-container">
-            <div class="img-title img-title-top">하단 '+' 확장 기능</div>
-            <img src="./screen-popup2.png" alt="Popup Screen">
-        </div>
-        <div class="responsive-img-container">
-            <div class="img-title img-title-top">스미싱 이미지 첨부 화면</div>
-            <img src="./screen-popup3-g2.png" alt="Popup Screen">
-        </div>
-        <div class="responsive-img-container">
-            <div class="img-title img-title-top">의견남기기 화면(Mobile)</div>
-            <img src="./screen-message-bad.png" alt="Popup Screen">
+    <header>
+        <span class="header-title">에이전틱 AI 챗봇</span>
+        <a href="#" class="header-menu">메뉴</a>
+    </header>
+
+    <div class="main-message">
+        <img src="./inc/img/logo-main.png">
+        <p>무엇을 도와드릴까요?</p>
+    </div>
+
+    <div class="container">
+        <div class="main-content">
+            <p>자주 묻는 질문 TOP3</p>
+            <div class="card-list">                
+                <div class="card">
+                    <span class="card-question">Q.</span> 
+                    1건강보험 피부양자가 되려면 어떤 조건이 필요해?
+                </div>
+                <div class="card">
+                    <span class="card-question">Q.</span> 
+                    2건강보험 피부양자가 되려면 어떤 조건이 필요해?
+                </div>
+                <div class="card">
+                    <span class="card-question">Q.</span> 
+                    3건강보험 피부양자가 되려면 어떤 조건이 필요해?
+                </div>
+            </div>
         </div>
     </div>
-    <div class="responsive-img-row">        
-         <div class="responsive-img-container">
-            <div class="img-title img-title-top">개인정보 수집·이용 동의</div>
-            <img src="./typeB-popup-check.png" alt="Main Screen">
-        </div>
-        <div class="responsive-img-container">
-            <div class="img-title img-title-top">메인 화면 B</div>
-            <img src="./typeB-main-logo-bg.png" alt="Main Screen">
-        </div>
-        <div class="responsive-img-container">
-            <div class="img-title img-title-top">상단 타이틀 확장 기능</div>
-            <img src="./typeB-popup1-small.png" alt="Popup Screen">
-        </div>        
-        <div class="responsive-img-container">
-            <div class="img-title img-title-top">파일 검증 화면</div>
-            <img src="./typeB-file-logo-bg.png" alt="Popup Screen">
-        </div>
-        <div class="responsive-img-container">
-            <div class="img-title img-title-top">의견남기기 화면(Mobile)</div>
-            <img src="./typeB-message-logo-bg.png" alt="Popup Screen">
+
+    <div class="input-container">
+        <textarea placeholder="궁금한 내용을 입력하세요." rows="3"></textarea>
+        <div class="input-actions-group">
+            <div class="button-group">
+                <button><img src="./inc/img/icon-camera.png">카메라</button>
+                <button><img src="./inc/img/icon-photo.png">사진</button>
+                <button><img src="./inc/img/icon-file.png">파일</button>
+            </div>
+            <button class="send-button">전송</button>
         </div>
     </div>
+
 </body>
 </html>
