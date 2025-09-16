@@ -13,11 +13,37 @@
             --main-color-hover: #C81915;
             --main-border-color: #FF9999;
             --container-max-width: 100%;
+                --base-font-size: 1rem; /* Changed to rem */
         }
         body {
             margin: 0;
             padding: 0;
             font-family: 'Pretendard GOV', 'Segoe UI', Arial, sans-serif;
+                font-size: 1rem; /* Changed to rem */
+        .font-size-control {
+            position: fixed;
+            top: 60px;
+            right: 12px;
+            z-index: 200;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            padding: 4px 8px;
+            display: flex;
+            gap: 4px;
+        }
+        .font-size-control button {
+            background: #f4f6fa;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            font-size: 1rem;
+            padding: 2px 10px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .font-size-control button:hover {
+            background: #ffeaea;
+        }
             background: var(--main-body-color);
             color: #222;
             min-width: 375px;
@@ -38,7 +64,7 @@
             color: #fff;
             padding: 0 32px; /* 상하 패딩 제거, 좌우만 */
             text-align: center;
-            font-size: 1.3rem;
+                font-size: 1.3rem; /* Rem value remains the same */
             font-weight: bold;
             letter-spacing: -1px;
             position: relative;
@@ -80,7 +106,7 @@
             color: var(--main-color);
             text-decoration: none;
             font-weight: 500;
-            font-size: 1.1rem;
+                font-size: 1.1rem; /* Rem value remains the same */
             transition: color 0.2s;
         }
         nav a:hover {
@@ -100,15 +126,15 @@
             width: 100%;            
             border-radius: 12px;
             box-shadow: none;
-            padding: 16px 16px 32px 16px; /* 하단 패딩 추가 */
+            padding: 16px 16px 16px 16px; /* 하단 패딩 추가 */
             position: fixed;
             left: 0;
             right: 0;
-            bottom: 160px;
+            bottom: 200px;
             z-index: 99;
             .faq-title {
                 font-weight: bold;
-                font-size:1.25rem;
+                    font-size: 1.25rem; /* Rem value remains the same */
             }
         }
         .card-list {
@@ -120,7 +146,7 @@
             -webkit-overflow-scrolling: touch;
             padding-bottom: 16px; /* 하단 그림자 잘림 방지 */
             scrollbar-width: thin; /* 항상 공간 확보, thumb만 숨김 */            
-            height:190px;
+            height:160px;
         }
         .card-list::-webkit-scrollbar {
             height: 8px;
@@ -167,13 +193,13 @@
             flex-direction: column;
             align-items: center;
             text-align: left;
-            font-size: 1.125rem;
+                font-size: 1.125rem; /* Rem value remains the same */
             line-height: 1.5rem;
         }
         .card-question {
             color: var(--main-color);
             text-align: left;
-            font-size: 1.25rem;
+                font-size: 1.25rem; /* Rem value remains the same */
             display: block;
             width: 100%;
             margin-bottom: 4px;
@@ -185,13 +211,13 @@
             margin-bottom: 12px;
         }
         .card-title {
-            font-size: 1.1rem;
+            font-size: 1.1rem; /* Rem value remains the same */
             font-weight: bold;
             margin-bottom: 8px;
             color: #333;
         }
         .card-desc {
-            font-size: 0.95rem;
+            font-size: 0.95rem; /* Rem value remains the same */
             color: #666;
         }
         .main-message {
@@ -210,7 +236,7 @@
         .main-message p {
             position: relative;
             top:2.5rem;
-            font-size: 1.5rem;
+            font-size: 1.5rem; /* Rem value remains the same */
             color: #333;
             font-weight: 500;
             margin: 0;
@@ -254,7 +280,7 @@
             border: 1px solid #fff;
             border-radius: 8px;
             padding: 0.25rem;
-            font-size: 1.125rem;
+                font-size: 1.125rem; /* Rem value remains the same */
             outline: none;
             resize: none;
             transition: border-color 0.2s;
@@ -291,7 +317,7 @@
             border: 1px solid #FFF;
             border-radius: 20px;
             background: #f9f9f9;
-            font-size: 0.9rem;
+                font-size: 0.9rem; /* Rem value remains the same */
             color: #555;
             cursor: pointer;
             transition: background 0.2s, border-color 0.2s;
@@ -403,11 +429,11 @@
                 width: 100%;            
                 border-radius: 12px;
                 box-shadow: none;
-                padding: 16px 16px 32px 16px; /* 하단 패딩 추가 */
+                padding: 16px 16px 16px 16px; /* 하단 패딩 추가 */
                 position: fixed;
                 left: 0;
                 right: 0;
-                bottom: 160px;
+                bottom: 200px;
                 z-index: 99;
                 .faq-title {
                     font-weight: bold;
@@ -438,6 +464,24 @@
         }
     </style>
     <script>
+    // 폰트 크기 조절 기능 (html/body font-size 직접 변경)
+    window.addEventListener('DOMContentLoaded', function() {
+        const html = document.documentElement;
+        const body = document.body;
+        const minFont = 12;
+        const maxFont = 24;
+        const step = 1;
+        let fontSize = parseFloat(window.getComputedStyle(html).fontSize) || 16;
+        const btnUp = document.querySelector('.font-size-up');
+        const btnDown = document.querySelector('.font-size-down');
+        function setFontSize(size) {
+            fontSize = Math.max(minFont, Math.min(maxFont, size));
+            html.style.fontSize = fontSize + 'px';
+            body.style.fontSize = fontSize + 'px';
+        }
+        if(btnUp) btnUp.onclick = function() { setFontSize(fontSize + step); };
+        if(btnDown) btnDown.onclick = function() { setFontSize(fontSize - step); };
+    });
     // 카드리스트 드래그/터치 스크롤 (PC/모바일)
     window.addEventListener('DOMContentLoaded', function() {
         const cardList = document.querySelector('.card-list');
@@ -496,6 +540,11 @@
         <span class="header-title">에이전틱 AI 챗봇</span>
         <a href="#" class="header-menu">메뉴</a>
     </header>
+
+    <div class="font-size-control">
+        <button class="font-size-down">폰트 -</button>
+        <button class="font-size-up">폰트 +</button>
+    </div>
 
     <div class="main-message">
         <div class="logo-animate-container">
