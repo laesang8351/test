@@ -260,6 +260,38 @@
             height: auto;
             z-index: 100;
         }
+        #file-preview-container {
+            display: flex;
+            gap: 8px;
+            padding: 0 8px 8px;
+            flex-wrap: wrap;
+        }
+        .file-preview-item {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .file-preview-item img {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+        .file-preview-item .remove-file {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: rgba(0,0,0,0.6);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 12px;
+            line-height: 20px;
+            text-align: center;
+            cursor: pointer;
+        }
         .input-actions-group {
             display: flex;
             flex-direction: row;
@@ -783,6 +815,70 @@
             document.body.style.overflow = ''; // 배경 스크롤 복원
         });
     });
+    // 파일 업로드 및 프리뷰 기능
+    window.addEventListener('DOMContentLoaded', function() {
+        const fileUploadButton = document.getElementById('file-upload-button');
+        const fileInput = document.getElementById('file-input');
+        const previewContainer = document.getElementById('file-preview-container');
+        const textarea = document.querySelector('.input-container textarea');
+
+        if (fileUploadButton && fileInput && previewContainer) {
+            fileUploadButton.addEventListener('click', () => {
+                fileInput.click();
+            });
+
+            fileInput.addEventListener('change', (event) => {
+                const files = event.target.files;
+                if (!files) return;
+
+                // 기존 프리뷰 지우기 (필요에 따라 여러 파일 허용 시 수정)
+                previewContainer.innerHTML = '';
+
+                for (const file of files) {
+                    if (file.type.startsWith('image/')) {
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                            const previewItem = document.createElement('div');
+                            previewItem.classList.add('file-preview-item');
+
+                            const img = document.createElement('img');
+                            img.src = e.target.result;
+                            
+                            const removeBtn = document.createElement('button');
+                            removeBtn.classList.add('remove-file');
+                            removeBtn.innerHTML = '&times;';
+                            removeBtn.onclick = () => {
+                                previewItem.remove();
+                                // 파일 입력 초기화
+                                fileInput.value = '';
+                            };
+
+                            previewItem.appendChild(img);
+                            previewItem.appendChild(removeBtn);
+                            previewContainer.appendChild(previewItem);
+                        };
+                        reader.readAsDataURL(file);
+                    } else {
+                        // 이미지 파일이 아닌 경우 파일 이름 표시
+                        const previewItem = document.createElement('div');
+                        previewItem.classList.add('file-preview-item');
+                        previewItem.textContent = file.name;
+                        
+                        const removeBtn = document.createElement('button');
+                        removeBtn.classList.add('remove-file');
+                        removeBtn.innerHTML = '&times;';
+                        removeBtn.onclick = () => {
+                            previewItem.remove();
+                            fileInput.value = '';
+                        };
+                        
+                        previewItem.appendChild(removeBtn);
+                        previewContainer.appendChild(previewItem);
+                    }
+                }
+            });
+        }
+    });
     </script>
 </head>
 <body>
@@ -825,15 +921,17 @@
     </div>
 
     <div class="input-container">
+        <div id="file-preview-container"></div>
         <textarea placeholder="궁금한 내용을 입력하세요." rows="3"></textarea>
         <div class="input-actions-group">
             <div class="button-group">
                 <button><img src="./icon-camera.png" alt="카메라" title="카메라">카메라</button>
                 <button><img src="./icon-photo.png" alt="사진" title="사진">사진</button>
-                <button><img src="./icon-file.png" alt="파일" title="파일">파일</button>
+                <button id="file-upload-button"><img src="./icon-file.png" alt="파일" title="파일">파일</button>
             </div>
             <button class="send-button" alt="전송" title="전송">전송</button>
         </div>
+        <input type="file" id="file-input" style="display: none;" />
     </div>
 
     <div class="dimmed-layer"></div>
