@@ -108,19 +108,19 @@
             z-index: 99;
             .faq-title {
                 font-weight: bold;
-                font-size:1.125rem;
+                font-size:1.25rem;
             }
         }
         .card-list {
             display: flex;
             gap: 24px;
             flex-wrap: nowrap;
-            margin-top: 24px;
+            margin-top: 16px;
             overflow-x: hidden;
             -webkit-overflow-scrolling: touch;
             padding-bottom: 16px; /* 하단 그림자 잘림 방지 */
             scrollbar-width: thin; /* 항상 공간 확보, thumb만 숨김 */            
-            height:160px;
+            height:190px;
         }
         .card-list::-webkit-scrollbar {
             height: 8px;
@@ -157,15 +157,17 @@
             background: #f9fafb;
             border-radius: 8px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            box-sizing: border-box;
             padding: 2rem 1rem;
             width: 220px;
             min-width: 220px;
-            height:140px;
+            height:160px;
             flex: 0 0 220px;
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: left;
+            font-size: 1.125rem;
             line-height: 1.5rem;
         }
         .card-question {
@@ -252,7 +254,7 @@
             border: 1px solid #ddd;
             border-radius: 8px;
             padding: 1rem;
-            font-size: 1rem;
+            font-size: 1.25rem;
             outline: none;
             resize: none;
             transition: border-color 0.2s;
@@ -407,8 +409,10 @@
                 right: 0;
                 bottom: 190px;
                 z-index: 99;
-                p {
+                .faq-title {
                     font-weight: bold;
+                    font-size:1.25rem;
+                    margin: 0 0 8px 0;
                 }
             }
             .card-list {
